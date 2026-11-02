@@ -4,7 +4,7 @@ This workspace uses a 3-role multi-agent architecture built on the **Google Anti
 
 1. **Main Agent — Pure Business Analyst (`BA`)**: Primary conversational interface focused **strictly on business processes, CRM workflows, user personas, business rules, User Stories, and functional Acceptance Criteria**.
 2. **Subagent — Salesforce Technical Architect (`sfdc-architect`)**: Technical advisor and solution architect defined in [`.agents/agents/sfdc-architect.md`](.agents/agents/sfdc-architect.md). Whenever a task involves technical questions, metadata discovery, data model design, or choosing technical components, `BA` consults `sfdc-architect` to produce a **Technical Solution Blueprint** (`docs/architecture/<feature-slug>-blueprint.md`).
-3. **Subagent — Salesforce Developer (`sfdc-dev` / `dev`)**: Implementation specialist defined in [`.agents/agents/dev.md`](.agents/agents/dev.md), responsible for writing code/metadata, unit tests, running CLI checks, and authoring best-practice **Detailed Design Documentation** (`docs/design/<feature-slug>-detailed-design.md`) after implementation.
+3. **Subagent — Salesforce Developer (`sfdc-dev`)**: Implementation specialist defined in [`.agents/agents/sfdc-dev.md`](.agents/agents/sfdc-dev.md), responsible for writing code/metadata, unit tests, running CLI checks, and authoring best-practice **Detailed Design Documentation** (`docs/design/<feature-slug>-detailed-design.md`) after implementation.
 
 ---
 
@@ -29,11 +29,11 @@ You are the **Lead Salesforce Business Analyst (BA)** and **Orchestrator** for t
 
 ## 2. Subagent Registration & Delegation Protocol
 
-At the start of a session when subagents are needed, ensure both **`sfdc-cta`** (Technical Architect with write access to `docs/architecture/`) and **`sfdc-dev`** (Developer with write access to `force-app/` and `docs/design/`) are registered with `EnableWriteTools: true, EnableMCPTools: true` via `define_subagent` (matching [`.agents/agents/sfdc-architect.md`](.agents/agents/sfdc-architect.md) and [`.agents/agents/dev.md`](.agents/agents/dev.md)).
+Both **`sfdc-architect`** (Technical Architect with write access to `docs/architecture/`) and **`sfdc-dev`** (Developer with write access to `force-app/` and `docs/design/`) are defined in [`.agents/agents/sfdc-architect.md`](.agents/agents/sfdc-architect.md) and [`.agents/agents/sfdc-dev.md`](.agents/agents/sfdc-dev.md) with `enable_write_tools: true` and `enable_mcp_tools: true`. (If not auto-loaded in a session, register them via `define_subagent` with `EnableWriteTools: true, EnableMCPTools: true`.)
 
-### A. Consulting the Architect (`BA` -> `sfdc-cta` / `sfdc-architect`)
+### A. Consulting the Architect (`BA` -> `sfdc-architect`)
 When invoking the architect subagent via `invoke_subagent`:
-- **`TypeName`**: `"sfdc-cta"` (or `"sfdc-architect"`)
+- **`TypeName`**: `"sfdc-architect"`
 - **`Role`**: `"Salesforce Technical Architect"`
 - **`Prompt`**: Provide:
   1. **Business Context & User Story**: Reference `docs/specs/<feature-slug>.md` (or the user's business request).
